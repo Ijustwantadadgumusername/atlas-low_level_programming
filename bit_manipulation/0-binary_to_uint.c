@@ -1,55 +1,34 @@
-#include "coding.h"
+#include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
+#include "main.h"
 
-int _pow_recursion(int x, int y);
 /**
- * binary_to_uint - function with one argument
- * @b: pointer to character
+ * binary_to_uint - converts a binary string to decimal
+ * @b: the string that represents a binary number
  *
- * Description: converts a binary number to an unsigned int
- * Return: converted number or 0 if NULL
- */
+ * Return: the decimal number, or 0 if the conversion fails
+*/
+
 unsigned int binary_to_uint(const char *b)
 {
-	unsigned int value = 0;
-	unsigned int power = 0;
-	int count = 0;
+	unsigned int dec = 0;
+	int i;
+	unsigned int base = 1;
 
-	if (!b)
+	if (b == NULL)
+	{
 		return (0);
-	/* Get length of string */
-	while (b[count] != '\0')
+	}
+	i = strlen(b) - 1;
+
+	while (i >= 0)
 	{
-		if (b[count] != '0' && b[count] != '1')
+		if (b[i] != '1' && b[i] != '0')
 			return (0);
-		count++;
+		dec += (b[i] - '0') * base;
+		base = base * 2;
+		i--;
 	}
-	count -= 1;
-	while (count >= 0)
-	{
-		if (b[count] == '1')
-			value += _pow_recursion(2, power);
-		power++;
-		count--;
-	}
-	return (value);
-}
-
-
-/**
- * _pow_recursion - function with two arguments
- * @x: int type 1st argument
- * @y: int type 2nd argument
- *
- * Description: returns the value of x raised to power of y
- * Return: value of x
- */
-int _pow_recursion(int x, int y)
-{
-	if (y == 0)
-		return (1);
-	else if (y < 0)
-		return (-1);
-	else
-		return (x * _pow_recursion(x, y - 1));
+	return (dec);
 }
